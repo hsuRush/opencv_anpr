@@ -31,6 +31,8 @@ public:
     MatContainer(string,int);
     //load vector
     std::vector< Mat > Getvector();
+    //save vector
+    void SaveToMat_vector(string);
     //copy
     Mat clone();
     //cv funcctions
@@ -42,8 +44,9 @@ public:
     Mat  cvProjection();//投影
     void cvCutToLetter();
     void cvEdgelize();
-    void cvCompare(Mat*,float);
+
     void cvToZhangSUenThinning();
+   
     //Settings
     void Set_THRESHOLD_BINARIZATION(int);
     void Set_THRESHOLD_CUT(int);

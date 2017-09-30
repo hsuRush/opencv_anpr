@@ -227,54 +227,6 @@ void MatContainer::cvCutToLetter() {
 //將投影結果進行切割
 void MatContainer::cvToZhangSUenThinning() {}
 // 骨架化
-void MatContainer::cvCompare(Mat a[37],float THRESHOLD_CAMPAREACCEPTABLE) {
-    float Sum = 0,counter = 0 ;
-    
-    for ( int it = 0; it < _Vector_Mat_Letters.size();it ++ ) {
-        //cout << "No."<<it;
-        for ( int fontnumber = 0; fontnumber < 36 ; fontnumber ++ ) {
-            cv::resize(a[fontnumber],a[fontnumber], cvSize(_Vector_Mat_Letters.at(it).cols, _Vector_Mat_Letters.at(it).rows));
-            for ( int i = 0; i < a[0].rows; i ++) {
-                for ( int j = 0; j < a[0].cols;j++) {
-                    if ((_Vector_Mat_Letters.at(it)).at < uchar > (i,j) == a[fontnumber].at < uchar > (i,j))
-                        Sum = Sum + 1;
-                }
-            }
-            //cout << " compare to " << "No." << fontnumber << endl ;
-            // cout << (Sum / (a[0].rows * a[0].cols)) <<endl;
-            if(fontnumber == 10 && it == 0){
-                cv::imshow("pare",a[fontnumber]);
-                cv::imshow("com",_Vector_Mat_Letters.at(0));
-                //cout << (Sum / (a[0].rows * a[0].cols)) <<endl;
-            }
-            if(( Sum / (a[0].rows * a[0].cols)) > THRESHOLD_CAMPAREACCEPTABLE) {
-                if ( fontnumber > 9) {
-                    //cout << "No." << counter <<":" << char ( fontnumber + 55 ) << endl;
-                }
-                else if (fontnumber < 9 )
-                    //cout << "No." << counter << fontnumber << endl;
-                
-                Sum = 0;
-                counter++;
-                stringstream fontnumstream;
-                if(fontnumber > 9 ) {
-                    fontnumstream << char(it);
-                    //cv::imshow(fontnumstream.str() , a[fontnumber]);
-                }
-                else if(fontnumber < 10) {
-                    fontnumstream << it;
-                    //cv::imshow(fontnumstream.str() , a[fontnumber]);
-                }
-            }
-            //if(fontnumber == 11) {
-                //cout <<(Sum / (a[0].rows * a[0].cols))  << endl;
-            //}
-            Sum =0.0;
-        }
-        //cvCompare(a,THRESHOLD_CAMPAREACCEPTABLE*0.9);
-    }
-}
-//比對器
 void MatContainer::imshow(string indexstring) {
     cv::imshow(indexstring,_Mat);
 }
