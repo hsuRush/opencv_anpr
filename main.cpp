@@ -42,7 +42,7 @@ int main( int argc, char** argv )
     //! [load]
     string traindata_address("/Users/Rush/Project/opencv/c++/Project_test/resource_pic/Font/black font/");
     string imageNamelena("/Users/Rush/Project/opencv/c++/Project_test/resource_pic/lena.png"); // lena <3
-    string imageNamenumber("/Users/Rush/Project/opencv/c++/Project_test/resource_pic/number.jpeg");
+    string inputimage_address("/Users/Rush/Project/opencv/c++/Project_test/resource_pic/number4.png");
     string imageNamenumber2("/Users/Rush/Project/opencv/c++/Project_test/resource_pic/number2.png");
     string imageNamenumber3("/Users/Rush/Project/opencv/c++/Project_test/resource_pic/number3.png");
     
@@ -135,7 +135,7 @@ int main( int argc, char** argv )
     
     //! [MatContainer]
     
-    MatContainer image = MatContainer(imageNamenumber,CV_LOAD_IMAGE_COLOR) ;
+    MatContainer image = MatContainer(inputimage_address,CV_LOAD_IMAGE_COLOR) ;
     
     image.Set_THRESHOLD_BINARIZATION(defTHRESHOLD_BIN);
     image.Set_THRESHOLD_HORIZONSHAPE(defTHRESHOLD_HOR);
@@ -149,6 +149,9 @@ int main( int argc, char** argv )
     //debug
     image.imshow("image");                // Show our image inside it.
     //debug
+    //waitkey
+    waitKey(1);
+    //waitkey
     
     //cut letter
     image.Set_THRESHOLD_CUT(defTHRESHOLD_CUT);
@@ -186,30 +189,52 @@ int main( int argc, char** argv )
         strFinalString = strFinalString + char(int(fltCurrentChar));        // append current char to full string
     }
     
-    cout << "\n\n" << "numbers read = " << strFinalString <<endl;
+    cout << "\n\n" << "numbers read = " << strFinalString << endl <<"is it the real answer? ( yes / no )"<<endl;
+    string writebackstate;
+    cin >> writebackstate;
     //! [imshow]
     
     //! [imshow]
     
     //write the correct answer back
-    string inputRealAnswer;
-    string yesno;
-    cout << "Input the real numbers"<<endl;
-    image.imshow("real answer");
-    cin >> inputRealAnswer;
-    cout <<"your anwser is " << inputRealAnswer << endl;
-    cout <<"Comfirmed?(y/n) Warning!" << endl;
-    cin >> yesno;
-    if((yesno == "y"||yesno == "Y" ) && (inputRealAnswer.length() < 8) ){
-        for(int i = 0; i < inputRealAnswer.length(); i++) {
-            matClassificationIntsData.push_back(int(inputRealAnswer.at(i)));
-            matTrainingImagesAsFlattenedFloatsData.push_back(image_backtracktosample.at(i));
+    if(writebackstate == "no") {
+        string inputRealAnswer;
+        string yesno;
+        cout << "Input the real numbers"<<endl;
+        image.imshow("real answer");
+        cin >> inputRealAnswer;
+        cout <<"your anwser is " << inputRealAnswer << endl;
+        cout <<"Comfirmed? ( type 'yes please') Warning!!!!!!" << endl;
+        cin >> yesno;
+        if((yesno == "hsuR"||yesno == "yes please" ) && (inputRealAnswer.length() < 8) ){
+            for(int i = 0; i < inputRealAnswer.length(); i++) {
+                matClassificationIntsData.push_back(int(inputRealAnswer.at(i)));
+                matTrainingImagesAsFlattenedFloatsData.push_back(image_backtracktosample.at(i));
+            }
+            fsWrite(matClassificationIntsData,matTrainingImagesAsFlattenedFloatsData);
+            cout << "sample has been Updated!!"<<endl;
+            return 0 ;
         }
-        fsWrite(matClassificationIntsData,matTrainingImagesAsFlattenedFloatsData);
-        cout << "sample has been Updated!!";
+        else {
+            cout << "bye!!" << endl;
+            return 0;
+        }
     }
-    else {
-        cout << "bye!!" << endl;
+    else if ( writebackstate == "yes" ) {
+        string yesno;
+        cout <<"Comfirmed? ( type 'yes please') Warning!!!!!!" << endl;
+        cin >> yesno;
+        if((yesno == "hsuR"||yesno == "yes please" )){
+            for(int i = 0; i < strFinalString.length(); i++) {
+                matClassificationIntsData.push_back(int(strFinalString.at(i)));
+                matTrainingImagesAsFlattenedFloatsData.push_back(image_backtracktosample.at(i));
+            }
+            fsWrite(matClassificationIntsData,matTrainingImagesAsFlattenedFloatsData);
+            cout << "sample has been Updated!!"<<endl;
+        }
+        else
+            cout << "bye!!" << endl;
+    
         return 0;
     }
     //write the correct answer back
