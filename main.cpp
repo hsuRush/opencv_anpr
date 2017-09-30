@@ -75,11 +75,11 @@ int main( int argc, char** argv )
     
    
      ////File save
-    cv::FileStorage fsClassifications("/Users/Rush/Project/0619opencv/0619opencv/classifications.xml", cv::FileStorage::WRITE);
+    cv::FileStorage fsClassifications("classifications.xml", cv::FileStorage::WRITE);
     fsClassifications << "classifications" << matClassificationIntsData;        // write classifications into classifications section of classifications file
     fsClassifications.release();
 
-    cv::FileStorage fsTrainingImages("/Users/Rush/Project/0619opencv/0619opencv/images.xml", cv::FileStorage::WRITE);
+    cv::FileStorage fsTrainingImages("images.xml", cv::FileStorage::WRITE);
     fsTrainingImages << "images" << matTrainingImagesAsFlattenedFloatsData;         // write training images into images section of images file
     fsTrainingImages.release();
     //////File save 
@@ -89,7 +89,7 @@ int main( int argc, char** argv )
     //read storage
     cv::Mat matClassificationIntsData;
     cv::Mat matTrainingImagesAsFlattenedFloatsData;
-    cv::FileStorage fsClassificationsRead("/Users/Rush/Project/0619opencv/0619opencv/classifications.xml", cv::FileStorage::READ);        // open the classifications file
+    cv::FileStorage fsClassificationsRead("classifications.xml", cv::FileStorage::READ);        // open the classifications file
     
     if (fsClassificationsRead.isOpened() == false) {                                                    // if the file was not opened successfully
         std::cout << "error, unable to open training classifications file, exiting program\n\n";    // show error message
@@ -103,7 +103,7 @@ int main( int argc, char** argv )
     
             // we will read multiple images into this single image variable as though it is a vector
     
-    cv::FileStorage fsTrainingImagesRead("/Users/Rush/Project/0619opencv/0619opencv/images.xml", cv::FileStorage::READ);          // open the training images file
+    cv::FileStorage fsTrainingImagesRead("images.xml", cv::FileStorage::READ);          // open the training images file
     
     if (fsTrainingImagesRead.isOpened() == false) {                                                 // if the file was not opened successfully
         std::cout << "error, unable to open training images file, exiting program\n\n";         // show error message
