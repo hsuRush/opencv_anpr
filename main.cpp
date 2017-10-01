@@ -15,7 +15,7 @@
 #define defTHRESHOLD_BIN 145
 #define defTHRESHOLD_CUT 17000/79
 #define defTHRESHOLD_HOR 57000/331        //66000
-#define defTHRESHOLD_VER 26000/109     //23000/109
+#define defTHRESHOLD_VER 20000/109     //23000/109
 #define defTHRESHOLD_EDG 10
 
 const int RESIZED_IMAGE_WIDTH = 44;    //44
@@ -40,11 +40,11 @@ int main( int argc, char** argv )
 {
     
     //! [load]
-    string traindata_address("/Users/Rush/Project/opencv/c++/Project_test/resource_pic/Font/black font/");
-    string imageNamelena("/Users/Rush/Project/opencv/c++/Project_test/resource_pic/lena.png"); // lena <3
-    string inputimage_address("/Users/Rush/Project/opencv/c++/Project_test/resource_pic/number4.png");
-    string imageNamenumber2("/Users/Rush/Project/opencv/c++/Project_test/resource_pic/number2.png");
-    string imageNamenumber3("/Users/Rush/Project/opencv/c++/Project_test/resource_pic/number3.png");
+    string traindata_address("/Users/Rush/Project/0619opencv/0619opencv/resources_pic/Font/black font/");
+    
+    string inputimage_address("/Users/Rush/Project/0619opencv/0619opencv/resources_pic/testing/number6.png");
+    string imageNamenumber2("/Users/Rush/Project/0619opencv/0619opencv/resources_pic/testing/number2.png");
+    string imageNamenumber3("/Users/Rush/Project/0619opencv/0619opencv/resources_pic/testing/number3.png");
     
     /*
     ////using trainingdata
@@ -89,7 +89,7 @@ int main( int argc, char** argv )
     //read storage
     cv::Mat matClassificationIntsData;
     cv::Mat matTrainingImagesAsFlattenedFloatsData;
-    cv::FileStorage fsClassificationsRead("classifications.xml", cv::FileStorage::READ);        // open the classifications file
+    cv::FileStorage fsClassificationsRead("/Users/Rush/Project/0619opencv/0619opencv/classifications.xml", cv::FileStorage::READ);        // open the classifications file
     
     if (fsClassificationsRead.isOpened() == false) {                                                    // if the file was not opened successfully
         std::cout << "error, unable to open training classifications file, exiting program\n\n";    // show error message
@@ -103,7 +103,7 @@ int main( int argc, char** argv )
     
             // we will read multiple images into this single image variable as though it is a vector
     
-    cv::FileStorage fsTrainingImagesRead("images.xml", cv::FileStorage::READ);          // open the training images file
+    cv::FileStorage fsTrainingImagesRead("/Users/Rush/Project/0619opencv/0619opencv/images.xml", cv::FileStorage::READ);          // open the training images file
     
     if (fsTrainingImagesRead.isOpened() == false) {                                                 // if the file was not opened successfully
         std::cout << "error, unable to open training images file, exiting program\n\n";         // show error message
