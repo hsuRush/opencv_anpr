@@ -35,7 +35,6 @@ string traindata_address = "....."
 #### to 
 ```cpp
 //////File save 
-*/
 ```
 
 ## `How to Train the KNN model`
