@@ -5,7 +5,7 @@
 > ```make your own sample (xml files) ```<br>
 >``` use mine xmls files :)```
 
-### `Make your's sample`
+### Make your's sample
 #### if you want to make your own sample (xml files) ,make sure that the samples files path is avaible.
 
 ```cpp
@@ -37,7 +37,7 @@ string traindata_address = "....."
 //////File save 
 ```
 
-## `How to Train the KNN model`
+## How to Train the KNN model
 ### The program will ask user if it is correct or not 
 >### if no , type the right one and will be written into xmls files
 >### if yes, automatically written into xml files 
