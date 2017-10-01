@@ -14,8 +14,8 @@
 
 #define defTHRESHOLD_BIN 145
 #define defTHRESHOLD_CUT 17000/79
-#define defTHRESHOLD_HOR 57000/331        //66000
-#define defTHRESHOLD_VER 26000/109     //23000/109
+#define defTHRESHOLD_HOR 57000/331        
+#define defTHRESHOLD_VER 26000/109     
 #define defTHRESHOLD_EDG 10
 
 const int RESIZED_IMAGE_WIDTH = 44;    //44
@@ -40,11 +40,10 @@ int main( int argc, char** argv )
 {
     
     //! [load]
-    string traindata_address("/Users/Rush/Project/opencv/c++/Project_test/resource_pic/Font/black font/");
-    string imageNamelena("/Users/Rush/Project/opencv/c++/Project_test/resource_pic/lena.png"); // lena <3
-    string inputimage_address("/Users/Rush/Project/opencv/c++/Project_test/resource_pic/number4.png");
-    string imageNamenumber2("/Users/Rush/Project/opencv/c++/Project_test/resource_pic/number2.png");
-    string imageNamenumber3("/Users/Rush/Project/opencv/c++/Project_test/resource_pic/number3.png");
+    string traindata_address("resources_pic/black font/");
+    string inputimage_address("resources_pic/number4.png");
+    string imageNamenumber2("resources_pic/number2.png");
+    string imageNamenumber3("resources_pic/number3.png");
     
     /*
     ////using trainingdata
@@ -177,7 +176,7 @@ int main( int argc, char** argv )
         image_vector_Resized.convertTo(image_vector_Float, CV_32FC1);             // convert Mat to float, necessary for call to find_nearest
         
         cv::Mat image_vector_FlattenedFloat = image_vector_Float.reshape(1, 1);
-        //可寫回sample裡
+        //write back to sample
         image_backtracktosample.push_back(image_vector_FlattenedFloat);
         //
         cv::Mat matCurrentChar(0,0,CV_32F);
@@ -204,9 +203,9 @@ int main( int argc, char** argv )
         image.imshow("real answer");
         cin >> inputRealAnswer;
         cout <<"your anwser is " << inputRealAnswer << endl;
-        cout <<"Comfirmed? ( type 'yes please') Warning!!!!!!" << endl;
+        cout <<"Comfirmed? ( type 'yes_please') Warning!!!!!!" << endl;
         cin >> yesno;
-        if((yesno == "hsuR"||yesno == "yes please" ) && (inputRealAnswer.length() < 8) ){
+        if((yesno == "yes"||yesno == "yes_please" ) && (inputRealAnswer.length() < 8) ){
             for(int i = 0; i < inputRealAnswer.length(); i++) {
                 matClassificationIntsData.push_back(int(inputRealAnswer.at(i)));
                 matTrainingImagesAsFlattenedFloatsData.push_back(image_backtracktosample.at(i));
@@ -251,11 +250,11 @@ int main( int argc, char** argv )
     
 }
 void fsWrite (Mat matClassificationIntsData,Mat matTrainingImagesAsFlattenedFloatsData) {
-    cv::FileStorage fsClassificationsWrite("/Users/Rush/Project/0619opencv/0619opencv/classifications.xml", cv::FileStorage::WRITE);
+    cv::FileStorage fsClassificationsWrite("classifications.xml", cv::FileStorage::WRITE);
     fsClassificationsWrite << "classifications" << matClassificationIntsData;        // write classifications into classifications section of classifications file
     fsClassificationsWrite.release();
     
-    cv::FileStorage fsTrainingImagesWrite("/Users/Rush/Project/0619opencv/0619opencv/images.xml", cv::FileStorage::WRITE);
+    cv::FileStorage fsTrainingImagesWrite("images.xml", cv::FileStorage::WRITE);
     fsTrainingImagesWrite << "images" << matTrainingImagesAsFlattenedFloatsData;         // write training images into images section of images file
     fsTrainingImagesWrite.release();
     //store fs
