@@ -15,7 +15,7 @@
 #define defTHRESHOLD_BIN 145
 #define defTHRESHOLD_CUT 17000/79
 #define defTHRESHOLD_HOR 57000/331        //66000
-#define defTHRESHOLD_VER 20000/109     //23000/109
+#define defTHRESHOLD_VER 28000/109     //23000/109
 #define defTHRESHOLD_EDG 10
 
 const int RESIZED_IMAGE_WIDTH = 44;    //44
@@ -42,7 +42,7 @@ int main( int argc, char** argv )
     //! [load]
     string traindata_address("/Users/Rush/Project/0619opencv/0619opencv/resources_pic/Font/black font/");
     
-    string inputimage_address("/Users/Rush/Project/0619opencv/0619opencv/resources_pic/testing/number6.png");
+    string inputimage_address("/Users/Rush/Project/0619opencv/0619opencv/resources_pic/testing/number12.png");
     string imageNamenumber2("/Users/Rush/Project/0619opencv/0619opencv/resources_pic/testing/number2.png");
     string imageNamenumber3("/Users/Rush/Project/0619opencv/0619opencv/resources_pic/testing/number3.png");
     
@@ -121,8 +121,7 @@ int main( int argc, char** argv )
     ///!KNN setting
     cv::Ptr<cv::ml::KNearest>  kNearest (cv::ml::KNearest::create());            // instantiate the KNN object
     //KKNN setting
-    // finally we get to the call to train, note that both parameters have to be of type Mat (a single Mat)
-    // even though in reality they are multiple images / numbers
+    
     //  KNN training
     kNearest->train(matTrainingImagesAsFlattenedFloatsData, cv::ml::ROW_SAMPLE, matClassificationIntsData);
     ///!KNN training
@@ -161,12 +160,12 @@ int main( int argc, char** argv )
     std::vector<Mat> image_vector = image.Getvector();
     std::vector<Mat> image_backtracktosample;
 
-    /*
+    
     for(int ok = 0 ;ok < image_vector.size();ok++) {
         stringstream s;
         s << ok;
         cv::imshow(s.str(),image_vector.at(ok));
-    }*/
+    }
     
     for (int i = 0; i < image_vector.size(); i++) {            // for each contour
         
@@ -181,11 +180,13 @@ int main( int argc, char** argv )
         image_backtracktosample.push_back(image_vector_FlattenedFloat);
         //
         cv::Mat matCurrentChar(0,0,CV_32F);
-        
-        kNearest->findNearest(image_vector_FlattenedFloat, 1, matCurrentChar);     // finally we can call find_nearest !!!
-        
+        Mat matresponse (0,0,CV_32F) , matdistance (0,0,CV_32F) ;
+        kNearest->findNearest(image_vector_FlattenedFloat, 1, matCurrentChar,matresponse,matdistance);     // finally we can call find_nearest !!!
+        float fltresponse,fltdistance;
+        fltresponse = (float)matresponse.at<float>(0,0);
+        fltdistance = (float)matdistance.at<float>(0,0);
         float fltCurrentChar = (float)matCurrentChar.at<float>(0, 0);
-        
+        cout << "distance: " << fltdistance << endl;
         strFinalString = strFinalString + char(int(fltCurrentChar));        // append current char to full string
     }
     
@@ -201,12 +202,12 @@ int main( int argc, char** argv )
         string inputRealAnswer;
         string yesno;
         cout << "Input the real numbers"<<endl;
-        image.imshow("real answer");
+        image.imshow("the real answer");
         cin >> inputRealAnswer;
         cout <<"your anwser is " << inputRealAnswer << endl;
-        cout <<"Comfirmed? ( type 'yes please') Warning!!!!!!" << endl;
+        cout <<"Comfirmed? ( type 'yes_please') Warning!!!!!!" << endl;
         cin >> yesno;
-        if((yesno == "hsuR"||yesno == "yes please" ) && (inputRealAnswer.length() < 8) ){
+        if((yesno == "hsuR"||yesno == "yes_please" ) && (inputRealAnswer.length() < 8) ){
             for(int i = 0; i < inputRealAnswer.length(); i++) {
                 matClassificationIntsData.push_back(int(inputRealAnswer.at(i)));
                 matTrainingImagesAsFlattenedFloatsData.push_back(image_backtracktosample.at(i));
@@ -222,9 +223,9 @@ int main( int argc, char** argv )
     }
     else if ( writebackstate == "yes" ) {
         string yesno;
-        cout <<"Comfirmed? ( type 'yes please') Warning!!!!!!" << endl;
+        cout <<"Comfirmed? ( type 'yes_please') Warning!!!!!!" << endl;
         cin >> yesno;
-        if((yesno == "hsuR"||yesno == "yes please" )){
+        if((yesno == "hsuR"||yesno == "yes_please" )){
             for(int i = 0; i < strFinalString.length(); i++) {
                 matClassificationIntsData.push_back(int(strFinalString.at(i)));
                 matTrainingImagesAsFlattenedFloatsData.push_back(image_backtracktosample.at(i));

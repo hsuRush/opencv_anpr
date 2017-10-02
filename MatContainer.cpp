@@ -24,6 +24,7 @@ MatContainer::MatContainer(string _filepath , int CV_LOAD_INDEX) {
     _Mat = imread(_filepath,CV_LOAD_INDEX);
    
 }
+//setting
 //載入透過string地址載入圖片Mat
 void MatContainer::Set_THRESHOLD_BINARIZATION (int index_THRESHOLD_BIN )  {
     THRESHOLD_BINIZARATION = index_THRESHOLD_BIN;
@@ -46,14 +47,23 @@ void MatContainer::Set_THRESHOLD_CAMPAREACCEPTABLE(float index_THRESHOLD_CAMPARE
     THRESHOLD_CAMPAREACCEPTABLE  = index_THRESHOLD_CAMPAREACCEPTABLE;
 }
 //設定投影門檻
+//setting
 std::vector< Mat > MatContainer::Getvector() { return _Vector_Mat_Letters; }
 //load vector
+
+
+//search ROI to be a plate
+void MatContainer::cvsearchROI() {
+    
+}
 void MatContainer::resize () {
     Mat temp;
 }
+//resize
 Mat MatContainer::clone() {
     return _Mat.clone();
 }
+//clone
 void MatContainer::cvToGray() {
     Mat _tempMat;
     cvtColor(_Mat, _tempMat,CV_BGR2GRAY);

@@ -36,6 +36,7 @@ public:
     //copy
     Mat clone();
     //cv funcctions
+    void cvsearchROI();
     void resize();
     void cvToGray();
     void cvToGauss();
