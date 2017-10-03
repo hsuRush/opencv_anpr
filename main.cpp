@@ -11,11 +11,16 @@
 #include <opencv2/ml/ml.hpp>
 #include <vector>
 
-
+//BINARIZATION
 #define defTHRESHOLD_BIN 145
+//CUT
 #define defTHRESHOLD_CUT 17000/79
+#define defTHRESHOLD_LETTERLENGTH 8/59
+//HORIZON
 #define defTHRESHOLD_HOR 57000/331        //66000
-#define defTHRESHOLD_VER 28000/109     //23000/109
+//VERITICAL
+#define defTHRESHOLD_VER 26000/109     //23000/109
+//EDGE
 #define defTHRESHOLD_EDG 10
 
 const int RESIZED_IMAGE_WIDTH = 44;    //44
@@ -41,8 +46,8 @@ int main( int argc, char** argv )
     
     //! [load]
     string traindata_address("/Users/Rush/Project/0619opencv/0619opencv/resources_pic/Font/black font/");
-    
-    string inputimage_address("/Users/Rush/Project/0619opencv/0619opencv/resources_pic/testing/number12.png");
+    string inputREGULARimage_address("/Users/Rush/Project/0619opencv/0619opencv/resources_pic/regular picture/regular2.png");
+    string inputOCRimage_address("/Users/Rush/Project/0619opencv/0619opencv/resources_pic/testing/number6.png");
     string imageNamenumber2("/Users/Rush/Project/0619opencv/0619opencv/resources_pic/testing/number2.png");
     string imageNamenumber3("/Users/Rush/Project/0619opencv/0619opencv/resources_pic/testing/number3.png");
     
@@ -133,31 +138,37 @@ int main( int argc, char** argv )
     // training
     
     //! [MatContainer]
-    
-    MatContainer image = MatContainer(inputimage_address,CV_LOAD_IMAGE_COLOR) ;
-    
-    image.Set_THRESHOLD_BINARIZATION(defTHRESHOLD_BIN);
-    image.Set_THRESHOLD_HORIZONSHAPE(defTHRESHOLD_HOR);
-    image.Set_THRESHOLD_VERITICALSHAPE(defTHRESHOLD_VER);
-    image.Set_THRESHOLD_EDGE(defTHRESHOLD_EDG);
+    /*
+    MatContainer inputREGULARimage =  MatContainer(inputREGULARimage_address,CV_LOAD_IMAGE_COLOR);
+    inputREGULARimage.cvToGray();
+    inputREGULARimage.Set_THRESHOLD_BINARIZATION(defTHRESHOLD_BIN);
+    inputREGULARimage.cvToBinariztion();
+    inputREGULARimage.cvEdgelize();
+    */
+    MatContainer inputOCRimage = MatContainer(inputOCRimage_address,CV_LOAD_IMAGE_COLOR) ;
+    inputOCRimage.Set_THRESHOLD_BINARIZATION(defTHRESHOLD_BIN);
+    inputOCRimage.Set_THRESHOLD_HORIZONSHAPE(defTHRESHOLD_HOR);
+    inputOCRimage.Set_THRESHOLD_VERITICALSHAPE(defTHRESHOLD_VER);
+    inputOCRimage.Set_THRESHOLD_EDGE(defTHRESHOLD_EDG);
     //! [MatContainer]
-    image.cvToGray();
-    image.cvToGauss();
-    image.cvToBinariztion();
-    image.cvShape();
+    inputOCRimage.cvToGray();
+    inputOCRimage.cvToGauss();
+    inputOCRimage.cvToBinariztion();
+    inputOCRimage.cvShape();
     //debug
-    image.imshow("image");                // Show our image inside it.
+    inputOCRimage.imshow("image");                // Show our image inside it.
     //debug
     //waitkey
     waitKey(1);
     //waitkey
     
     //cut letter
-    image.Set_THRESHOLD_CUT(defTHRESHOLD_CUT);
-    image.cvCutToLetter();
+    inputOCRimage.Set_THRESHOLD_CUT(defTHRESHOLD_CUT);
+    inputOCRimage.Set_THRESHOLD_LETTERLENGTH(defTHRESHOLD_LETTERLENGTH);
+    inputOCRimage.cvCutToLetter();
     //cut letter
     std::string strFinalString;         // declare final string, this will have the final number sequence by the end of the program
-    std::vector<Mat> image_vector = image.Getvector();
+    std::vector<Mat> image_vector = inputOCRimage.Getvector();
     std::vector<Mat> image_backtracktosample;
 
     
@@ -202,7 +213,7 @@ int main( int argc, char** argv )
         string inputRealAnswer;
         string yesno;
         cout << "Input the real numbers"<<endl;
-        image.imshow("the real answer");
+        inputOCRimage.imshow("the real answer");
         cin >> inputRealAnswer;
         cout <<"your anwser is " << inputRealAnswer << endl;
         cout <<"Comfirmed? ( type 'yes_please') Warning!!!!!!" << endl;

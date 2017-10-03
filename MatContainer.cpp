@@ -33,7 +33,10 @@ void MatContainer::Set_THRESHOLD_BINARIZATION (int index_THRESHOLD_BIN )  {
 void MatContainer::Set_THRESHOLD_CUT( int index_THRESHOLD_CUT) {
     THRESHOLD_CUT = index_THRESHOLD_CUT * _Mat.rows ;
 }
-
+void MatContainer::Set_THRESHOLD_LETTERLENGTH(int index_THRESHOLD_LETTERLENGTH) {
+    THRESHOLD_LETTERLENGTH = index_THRESHOLD_LETTERLENGTH * _Mat.rows;
+}
+//horizon
 void MatContainer::Set_THRESHOLD_HORIZONSHAPE(int index_THRESHOLD_HORIZONSHAPE) {
     THRESHOLD_HORZIONSHAPE = index_THRESHOLD_HORIZONSHAPE * _Mat.cols;
 }
@@ -55,6 +58,40 @@ std::vector< Mat > MatContainer::Getvector() { return _Vector_Mat_Letters; }
 //search ROI to be a plate
 void MatContainer::cvsearchROI() {
     
+}
+void MatContainer::cvEdgelize() {
+    int deltaT;
+    Mat temp(_Mat.rows , _Mat.cols , _Mat.type());
+    for(int i = 0; i < _Mat.rows ; i++ ) {
+        for(int j = 0; j < _Mat.cols ; j++ ) {
+            uchar candidate[9] = {
+                _Mat.at<uchar>(i-1,j-1),
+                _Mat.at<uchar>(i-1,j),
+                _Mat.at<uchar>(i-1,j+1),
+                _Mat.at<uchar>(i,j-1),
+                _Mat.at<uchar>(i,j),
+                _Mat.at<uchar>(i,j+1),
+                _Mat.at<uchar>(i+1,j-1),
+                _Mat.at<uchar>(i+1,j),
+                _Mat.at<uchar>(i+1,j+1)
+            };
+            if(candidate[4] == 0) {
+                temp.at<uchar>(i,j) = 255;
+                for(int k = 0; k < 9; k++ ) {
+                    if (candidate[k] == 255) {
+                        temp.at<uchar>(i,j) = 0 ;
+                    }
+                }
+            }
+            else
+            {
+                temp.at<uchar>(i,j) = 255;
+            }
+            
+        }
+    }
+    _Mat = temp.clone();
+    cv::imshow("edge_test",temp);
 }
 void MatContainer::resize () {
     Mat temp;
@@ -206,16 +243,19 @@ void MatContainer::cvCutToLetter() {
         else if((VerSum > THRESHOLD_CUT && isWord == 1)||(isWord == 1 && i == _Mat.cols-1)) {
             rightedge = i;
             isWord = 0;
-            Mat temp(_Mat.rows,rightedge-leftedge,_Mat.type());
-            for(int ini = 0; ini < _Mat.rows; ini++) {
-                for(int inj = leftedge; inj < rightedge; inj++) {
-                    temp.at <uchar> (ini,inj-leftedge) = _Mat.at<uchar>(ini,inj);
+            if((i - leftedge) > THRESHOLD_LETTERLENGTH) {
+                Mat temp(_Mat.rows,rightedge-leftedge,_Mat.type());
+                for(int ini = 0; ini < _Mat.rows; ini++) {
+                    for(int inj = leftedge; inj < rightedge; inj++) {
+                        temp.at <uchar> (ini,inj-leftedge) = _Mat.at<uchar>(ini,inj);
+                    }
                 }
+                //cv::resize(temp, temp, cvSize(44,79));
+                _Vector_Mat_Letters.push_back(temp);
             }
-            //cv::resize(temp, temp, cvSize(44,79));
-            _Vector_Mat_Letters.push_back(temp);
-            
-            
+        }
+        if(_Vector_Mat_Letters.size() == 4) {
+            cout << VerSum << endl;
         }
         //cout << "VerSum" << VerSum << endl;
         VerSum = 0;

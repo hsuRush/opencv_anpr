@@ -36,6 +36,8 @@ public:
     //copy
     Mat clone();
     //cv funcctions
+    void cverode();
+    void cvdilation();
     void cvsearchROI();
     void resize();
     void cvToGray();
@@ -51,6 +53,7 @@ public:
     //Settings
     void Set_THRESHOLD_BINARIZATION(int);
     void Set_THRESHOLD_CUT(int);
+    void Set_THRESHOLD_LETTERLENGTH(int);
     void Set_THRESHOLD_HORIZONSHAPE(int);
     void Set_THRESHOLD_VERITICALSHAPE(int);
     void Set_THRESHOLD_EDGE(int);
@@ -61,11 +64,13 @@ public:
 private:
     /////data structure
     Mat _Mat;
+    Mat _Mat_edgelize;
     std::vector< Mat > _Vector_Mat_Letters;
     /////Threshold
     int THRESHOLD_BINIZARATION;//二值化
     int THRESHOLD_HORZIONSHAPE;
     int THRESHOLD_CUT;
+    int THRESHOLD_LETTERLENGTH;
     int THRESHOLD_VERITICALSHAPE;
     int THRESHOLD_EDGE;
     float THRESHOLD_CAMPAREACCEPTABLE;
