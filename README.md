@@ -9,11 +9,11 @@
 
 ![Result](https://user-images.githubusercontent.com/22855741/31375962-d4e13444-add5-11e7-90bb-99b3a54224c5.png)
 
- There's two methods to run it
+#### There's two methods to run it
 >- ``` make your own sample xml files ```<br>
 >- ``` use origin xmls files ```
 
-#### 1.Make your's sample
+### 1.Make your's sample
 ##### if you want to make your own sample xml files , make sure the samples files path is avaible.
 
 ```cpp
@@ -31,10 +31,9 @@ string traindata_address = "....."
 //////File save 
 ```
 ##### the pushback value (sign) must match the picture, and need to be transfer to int type as well.Last,pushback the image data simultaneously.
+##### after running it ,  remember annotate. <br><br><br><br>
 
-
-##### after running it ,  remember annotate.
-#### 2.Running with existed xmls file
+### 2.Running with existed xmls file
 ##### if you want to use mine just run it.
 
 ##### remember to annotate  the code  from
@@ -49,7 +48,7 @@ string traindata_address = "....."
 //////File save 
 ```
 
-### How to Train the KNN model and write it back 
+### How to Train the KNN model and write it back ?
 #### The program will ask user if it is correct or not 
 >##### if no , type the right one and will be written into xmls files
 >##### if yes, automatically write into xml files 
