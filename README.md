@@ -20,7 +20,7 @@
 string traindata_address = "....."
 ```
 
-##### Then uncomment the fs save code in the first time! 
+##### Then uncomment the fs save code at the first time! 
 ```cpp
  /*
     ////using trainingdata
