@@ -5,7 +5,6 @@
 >- ##### GrayScale
 >- ##### OTSU threshold
 >- ##### Edge detection
->- ##### using slide window algorithm to implement the plate dectection
 
 ![Result](https://user-images.githubusercontent.com/22855741/31375962-d4e13444-add5-11e7-90bb-99b3a54224c5.png)
 ### User Guide
